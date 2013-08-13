@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iostream>
+
 #define LOG(to_print) \
     std::cerr << __FILE__ << ":" << __LINE__ << "] " << to_print << std::endl
 

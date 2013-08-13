@@ -1,5 +1,9 @@
 #pragma once
 
+#include <cstddef>
+#include <cstdarg>
+#include <string>
+
 template< size_t Size >
 inline void vsprintf_s(char (&buf)[Size], const char * fmt, va_list va) {
   vsnprintf(buf, Size, fmt, va);
@@ -7,6 +11,14 @@ inline void vsprintf_s(char (&buf)[Size], const char * fmt, va_list va) {
 
 template< size_t Size >
 inline void sprintf_s(char (&buf)[Size], const char * fmt, ...) {
+  va_list argptr;
+  va_start(argptr, fmt);
+  vsprintf_s(buf, fmt, argptr);
+  va_end(argptr);
+}
+
+template< size_t Size >
+inline void strcpy_s(char (&buf)[Size], const char * fmt, ...) {
   va_list argptr;
   va_start(argptr, fmt);
   vsprintf_s(buf, fmt, argptr);
@@ -21,4 +33,3 @@ std::string str_fmt(const char* fmt, ...) {
   va_end(argptr);
   return std::string(dest);
 }
-
