@@ -8,7 +8,6 @@
 #include <sstream>
 #include <cstring>
 #include <string>
-#include "print.hpp"
 
 // forward declaration
 namespace flags { template<typename T> class Flag; }
@@ -73,7 +72,6 @@ namespace flags {
       }
       for (FlagBase * f : impl::registered_flags()) {
         if (flag_str.compare(f->flag()) == 0) {
-          LOG( flag_str << " : " << arg_str );
           f->parse(arg_str.c_str());
           break;
         }

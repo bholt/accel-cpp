@@ -24,6 +24,8 @@ inline double walltime(void) {
 	now *= info.numer;
 	now /= info.denom;
 	return 1.0e-9 * (double)now;
+#elif defined(WINDOWS)
+  return 1.0e-3 * GetTickCount();
 #else
 	struct timespec tp;
 #if defined(CLOCK_PROCESS_CPUTIME_ID)
