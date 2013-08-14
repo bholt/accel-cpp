@@ -13,6 +13,13 @@
 #include <time.h>
 #endif
 
+#ifdef WINDOWS
+double LIToSecs( LARGE_INTEGER * L) { 
+  LARGE_INTEGER frequency;
+  QueryPerformanceFrequency( &frequency ) ; 
+  return ((double)L->QuadPart /(double)frequency.QuadPart) ; } 
+#endif
+
 /// "Universal" wallclock time (works at least for Mac, MTA, and most Linux)
 inline double walltime(void) {
 #if defined(__MTA__)
@@ -25,7 +32,11 @@ inline double walltime(void) {
 	now /= info.denom;
 	return 1.0e-9 * (double)now;
 #elif defined(WINDOWS)
-  return 1.0e-3 * GetTickCount();
+  // return 1.0e-3 * GetTickCount();
+  // static LARGE_INTEGER freq = 0;
+  // if (freq == 0) 
+  LARGE_INTEGER c; QueryPerformanceCounter(&c);
+  return LIToSecs(&c);
 #else
 	struct timespec tp;
 #if defined(CLOCK_PROCESS_CPUTIME_ID)
