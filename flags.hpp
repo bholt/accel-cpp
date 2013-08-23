@@ -9,6 +9,8 @@
 #include <cstring>
 #include <string>
 
+#include <iostream>
+
 // forward declaration
 namespace flags { template<typename T> class Flag; }
 
@@ -26,6 +28,7 @@ namespace flags {
   }
   
   class FlagBase {
+  protected:
     std::string name;
   public:
     FlagBase(const char * name): name(name) {

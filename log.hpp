@@ -15,10 +15,6 @@
 #define DLOG(to_print) do {} while (0)
 #endif
 
-#define LLOG(to_print) LOG("@" << id << ": " << to_print)
-#define LDLOG(to_print) DLOG("@" << id << ": " << to_print)
-
-
 
 # if defined(DEBUG) || defined(_DEBUG)
 #   define CHECK(bool_expr) if (!(bool_expr)) { LOG( "Check failed: "#bool_expr ); throw false; }
