@@ -16,7 +16,7 @@ namespace flags { template<typename T> class Flag; }
 
 template< typename T >
 std::ostream& operator<<(std::ostream& o, const flags::Flag<T>& f) {
-  return o << f.val;
+  return o << (T)f;
 }
 
 namespace flags {
@@ -42,21 +42,43 @@ namespace flags {
   class Flag : public FlagBase {
   protected:
     T val;
-    T default_val;
   public:
     Flag(const char * name, T default_val):
       FlagBase(name),
-      val(default_val),
-      default_val(default_val)
+      val(default_val)
     { }
     void parse(const char * a) {
       std::istringstream(a) >> val;
     }    
-    operator T() { return val; }
-    const T& operator=(const T& o) { val = o; }
+    operator T&() { return val; }
+    operator const T&() const { return val; }
+    const T& operator=(const T& o) { val = o; return val; }
+    bool operator==(const char * str) {
+      T o;
+      std::istringstream(str) >> o;
+      return val == o;
+    }
     
     template< typename TT >
     friend std::ostream& ::operator<<(std::ostream& o, const Flag<TT>& f);
+  };
+  
+  template<>
+  class Flag<std::string> : public FlagBase {
+  protected:
+    std::string val;
+  public:
+    Flag(const char * name, std::string default_val):
+      FlagBase(name),
+      val(default_val)
+    { }
+    void parse(const char * a) {
+      val = std::string(a);
+    }
+    operator std::string&() { return val; }
+    operator const std::string&() const { return val; }
+    const std::string& operator=(const std::string& o) { val = o; return val; }
+    bool operator==(const char * str) { return val.compare(str) == 0; }
   };
     
   inline void parse(int& argc, const char ** argv) {
