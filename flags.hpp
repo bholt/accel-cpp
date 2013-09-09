@@ -103,6 +103,9 @@ namespace flags {
       }
     }
   }
+  inline void parse(int& argc, char ** argv) {
+    parse(argc, const_cast<const char**>(argv));
+  }
 }
 
 
