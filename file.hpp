@@ -6,7 +6,7 @@ namespace accel {
   public:
     file_stream(const char* filename, ios_base::openmode mode = ios_base::in | ios_base::out)
       : fstream(filename, mode), in_binary_mode(mode & ios_base::binary)
-    { if (in_binary_mode) LOG("binary"); }
+    { }
     
     /// Implicitly use type information to read binary data in multiples of the object size.
     template< typename T >
